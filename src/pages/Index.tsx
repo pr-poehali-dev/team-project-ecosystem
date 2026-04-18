@@ -300,9 +300,186 @@ function HomePage({ setTab }: { setTab: (t: Tab) => void }) {
   );
 }
 
+const EXPERT_ROLES = [
+  { id: "mentor", icon: "GraduationCap", label: "Ментор", desc: "Наставничество и стратегические советы команде", color: "#00ff8c" },
+  { id: "consultant", icon: "Lightbulb", label: "Консультант", desc: "Экспертиза в конкретной области по запросу", color: "#00d4ff" },
+  { id: "partner", icon: "Handshake", label: "Партнёр", desc: "Вхождение в проект с долей и активным участием", color: "#a855f7" },
+  { id: "advisor", icon: "Star", label: "Советник", desc: "Участие в Совете директоров или наблюдательном совете", color: "#f59e0b" },
+];
+
+type ApplicationState = "form" | "success";
+
+function JoinModal({ project, onClose }: { project: typeof PROJECTS[0]; onClose: () => void }) {
+  const [role, setRole] = useState<string | null>(null);
+  const [step, setStep] = useState<1 | 2>(1);
+  const [appState, setAppState] = useState<ApplicationState>("form");
+  const [form, setForm] = useState({ name: "", expertise: "", message: "", linkedin: "" });
+
+  const selectedRole = EXPERT_ROLES.find(r => r.id === role);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setAppState("success");
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div
+        className="relative glass-card rounded-2xl border border-[#1e2a3a] w-full max-w-lg max-h-[90vh] overflow-y-auto animate-slide-up"
+        onClick={e => e.stopPropagation()}
+      >
+        {appState === "success" ? (
+          <div className="p-10 text-center">
+            <div className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center"
+              style={{ background: "rgba(0,255,140,0.15)", border: "2px solid rgba(0,255,140,0.5)" }}>
+              <Icon name="CheckCircle" size={40} className="text-[#00ff8c]" />
+            </div>
+            <h3 className="font-['Oswald'] text-3xl font-bold text-white mb-3">ЗАЯВКА ОТПРАВЛЕНА</h3>
+            <p className="text-gray-400 mb-2">Роль: <span className="text-[#00ff8c] font-semibold">{selectedRole?.label}</span></p>
+            <p className="text-gray-400 mb-6">Команда <span className="text-white font-semibold">{project.name}</span> рассмотрит вашу заявку в течение 3 рабочих дней.</p>
+            <div className="glass-card rounded-xl border border-[#1e2a3a] p-4 mb-6 text-left">
+              <div className="text-xs text-gray-500 mb-2">Что дальше</div>
+              {["Команда изучит ваш профиль и сообщение", "Если подходите — пригласят на видеозвонок", "Подпись соглашения и вступление в проект"].map((s, i) => (
+                <div key={i} className="flex items-start gap-2 text-sm text-gray-400 mb-2">
+                  <span className="neon-text font-bold">{i + 1}.</span> {s}
+                </div>
+              ))}
+            </div>
+            <button onClick={onClose} className="btn-primary-neon px-8 py-3 rounded-xl font-semibold w-full">Закрыть</button>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between p-6 border-b border-[#1e2a3a]">
+              <div>
+                <h3 className="font-['Oswald'] text-xl font-bold text-white">ВСТУПИТЬ В СТАРТАП</h3>
+                <p className="text-gray-500 text-sm">{project.name}</p>
+              </div>
+              <button onClick={onClose} className="w-8 h-8 rounded-lg glass-card border border-[#1e2a3a] flex items-center justify-center text-gray-400 hover:text-white">
+                <Icon name="X" size={16} />
+              </button>
+            </div>
+
+            {/* Steps indicator */}
+            <div className="flex items-center gap-2 px-6 pt-5">
+              {[1, 2].map(s => (
+                <div key={s} className="flex items-center gap-2">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                    step >= s ? "btn-primary-neon" : "glass-card border border-[#1e2a3a] text-gray-500"
+                  }`}>{s}</div>
+                  {s < 2 && <div className={`h-px w-16 transition-all ${step > s ? "bg-[#00ff8c]" : "bg-[#1e2a3a]"}`} />}
+                </div>
+              ))}
+              <span className="ml-2 text-xs text-gray-500">{step === 1 ? "Выбор роли" : "Данные заявки"}</span>
+            </div>
+
+            {step === 1 && (
+              <div className="p-6">
+                <p className="text-gray-400 text-sm mb-5">Выберите роль, в которой хотите участвовать в проекте:</p>
+                <div className="space-y-3">
+                  {EXPERT_ROLES.map(r => (
+                    <button
+                      key={r.id}
+                      onClick={() => setRole(r.id)}
+                      className={`w-full text-left p-4 rounded-xl border transition-all ${
+                        role === r.id
+                          ? "border-[#00ff8c] bg-[#00ff8c]/8"
+                          : "border-[#1e2a3a] glass-card hover:border-[#1e2a3a]/80"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                          style={{ background: `${r.color}18`, border: `1px solid ${r.color}40` }}>
+                          <Icon name={r.icon} size={18} style={{ color: r.color }} />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-white font-semibold text-sm">{r.label}</span>
+                            {role === r.id && <Icon name="CheckCircle" size={14} className="text-[#00ff8c]" />}
+                          </div>
+                          <p className="text-gray-500 text-xs mt-0.5">{r.desc}</p>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <button
+                  disabled={!role}
+                  onClick={() => setStep(2)}
+                  className={`w-full mt-6 py-3 rounded-xl font-semibold text-sm transition-all ${
+                    role ? "btn-primary-neon" : "bg-[#1e2a3a] text-gray-600 cursor-not-allowed"
+                  }`}
+                >
+                  Продолжить →
+                </button>
+              </div>
+            )}
+
+            {step === 2 && (
+              <form onSubmit={handleSubmit} className="p-6">
+                <div className="flex items-center gap-3 mb-5 p-3 rounded-xl glass-card border border-[#1e2a3a]">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                    style={{ background: `${selectedRole?.color}18`, border: `1px solid ${selectedRole?.color}40` }}>
+                    <Icon name={selectedRole?.icon || "Star"} size={16} style={{ color: selectedRole?.color }} />
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Выбранная роль</div>
+                    <div className="text-white text-sm font-semibold">{selectedRole?.label}</div>
+                  </div>
+                  <button type="button" onClick={() => setStep(1)} className="ml-auto text-xs text-[#00d4ff] hover:underline">Изменить</button>
+                </div>
+                <div className="space-y-4">
+                  {[
+                    { key: "name", label: "Имя и фамилия", placeholder: "Иван Петров", type: "text" },
+                    { key: "expertise", label: "Область экспертизы", placeholder: "Например: ML-инженер, 10 лет опыта", type: "text" },
+                    { key: "linkedin", label: "LinkedIn / сайт (опционально)", placeholder: "linkedin.com/in/...", type: "text" },
+                  ].map(f => (
+                    <div key={f.key}>
+                      <label className="block text-xs text-gray-400 mb-1.5">{f.label}</label>
+                      <input
+                        type={f.type}
+                        placeholder={f.placeholder}
+                        value={form[f.key as keyof typeof form]}
+                        onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))}
+                        className="w-full bg-[#0a0e14] border border-[#1e2a3a] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#00ff8c] transition-all"
+                        required={f.key !== "linkedin"}
+                      />
+                    </div>
+                  ))}
+                  <div>
+                    <label className="block text-xs text-gray-400 mb-1.5">Сопроводительное сообщение</label>
+                    <textarea
+                      placeholder="Расскажите, какую ценность принесёте проекту и почему хотите присоединиться..."
+                      value={form.message}
+                      onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))}
+                      rows={4}
+                      required
+                      className="w-full bg-[#0a0e14] border border-[#1e2a3a] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#00ff8c] transition-all resize-none"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-3 mt-6">
+                  <button type="button" onClick={() => setStep(1)}
+                    className="px-5 py-3 rounded-xl text-sm text-gray-400 glass-card border border-[#1e2a3a] hover:text-white">
+                    ← Назад
+                  </button>
+                  <button type="submit" className="flex-1 btn-primary-neon py-3 rounded-xl font-semibold text-sm">
+                    Отправить заявку
+                  </button>
+                </div>
+              </form>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ProjectsPage() {
   const [selected, setSelected] = useState<number | null>(null);
   const [filter, setFilter] = useState("all");
+  const [joinProject, setJoinProject] = useState<typeof PROJECTS[0] | null>(null);
 
   const categories = ["all", "ЭкоТех", "МедТех", "АгроТех", "Транспорт"];
   const filtered = filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
@@ -383,21 +560,31 @@ function ProjectsPage() {
                 <div className="text-xs text-gray-500 mt-1">{((p.raised / p.goal) * 100).toFixed(0)}% от цели</div>
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-3 text-sm text-gray-400">
                   <span className="flex items-center gap-1">
                     <Icon name="Users" size={13} /> {p.investors} инвесторов
                   </span>
                 </div>
-                <button className="btn-primary-neon px-5 py-2 rounded-lg text-sm font-semibold"
-                  onClick={(e) => e.stopPropagation()}>
-                  Инвестировать
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    className="btn-neon px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5"
+                    onClick={(e) => { e.stopPropagation(); setJoinProject(p); }}
+                  >
+                    <Icon name="UserPlus" size={13} /> Вступить как эксперт
+                  </button>
+                  <button className="btn-primary-neon px-5 py-2 rounded-lg text-sm font-semibold"
+                    onClick={(e) => e.stopPropagation()}>
+                    Инвестировать
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {joinProject && <JoinModal project={joinProject} onClose={() => setJoinProject(null)} />}
     </div>
   );
 }
