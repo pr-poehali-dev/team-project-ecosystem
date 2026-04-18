@@ -256,7 +256,7 @@ function HomePage({ setTab }: { setTab: (t: Tab) => void }) {
                 Безопасная инвестиционная платформа
               </div>
               <h1 className="font-['Oswald'] text-6xl md:text-7xl font-bold leading-none mb-6">
-                <span className="text-white">ВЛОЖИ</span>
+                <span className="text-white">ВКЛАДЫВАЙ</span>
                 <br />
                 <span className="gradient-text">УМНО.</span>
                 <br />
