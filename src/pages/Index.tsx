@@ -271,6 +271,22 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
+function FluenceLogo() {
+  return (
+    <div className="flex items-center gap-2.5">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="9" fill="#3b5bdb"/>
+        <path d="M9 16 C9 11.5 12.5 8 17 8 C19.5 8 21.7 9.1 23.2 10.8" stroke="white" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+        <path d="M23 16 C23 20.5 19.5 24 15 24 C12.5 24 10.3 22.9 8.8 21.2" stroke="white" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+        <circle cx="16" cy="16" r="2.5" fill="white"/>
+        <circle cx="23.2" cy="10.8" r="1.8" fill="#748ffc"/>
+        <circle cx="8.8" cy="21.2" r="1.8" fill="#748ffc"/>
+      </svg>
+      <span className="font-['Oswald'] text-xl font-semibold text-[#1a1d23] tracking-wide">Fluence</span>
+    </div>
+  );
+}
+
 function NavBar({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
   const items: { id: Tab; icon: string; label: string }[] = [
     { id: "home", icon: "Home", label: "Главная" },
@@ -281,50 +297,41 @@ function NavBar({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
     { id: "verification", icon: "ShieldCheck", label: "Верификация" },
   ];
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-[#1e2a3a]">
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg btn-primary-neon flex items-center justify-center">
-            <Icon name="Zap" size={16} />
-          </div>
-          <span className="font-['Oswald'] text-xl font-semibold gradient-text tracking-wider">FLUENCE</span>
-        </div>
-        <div className="hidden md:flex items-center gap-1">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[var(--border-color)]">
+      <div className="max-w-7xl mx-auto px-5 flex items-center justify-between h-16">
+        <FluenceLogo />
+        <div className="hidden md:flex items-center gap-0.5">
           {items.map((item) => (
             <button
               key={item.id}
               onClick={() => setTab(item.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                tab === item.id
-                  ? "tab-active"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                tab === item.id ? "nav-item-active" : "btn-ghost"
               }`}
             >
-              <Icon name={item.icon} size={16} />
+              <Icon name={item.icon} size={15} />
               {item.label}
             </button>
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#00ff8c] to-[#00d4ff] flex items-center justify-center text-black text-xs font-bold">АК</div>
-            <div className="hidden md:block">
-              <div className="text-xs text-white font-medium">Алексей К.</div>
-              <div className="verified-badge">Верифицирован</div>
-            </div>
+          <div className="w-8 h-8 rounded-full bg-[#3b5bdb] flex items-center justify-center text-white text-xs font-bold">АК</div>
+          <div className="hidden md:block">
+            <div className="text-xs text-[var(--text-primary)] font-semibold">Алексей К.</div>
+            <span className="badge-success">Верифицирован</span>
           </div>
         </div>
       </div>
-      <div className="md:hidden flex border-t border-[#1e2a3a]">
+      <div className="md:hidden flex border-t border-[var(--border-color)]">
         {items.map((item) => (
           <button
             key={item.id}
             onClick={() => setTab(item.id)}
             className={`flex-1 flex flex-col items-center py-2 text-xs gap-1 transition-all ${
-              tab === item.id ? "neon-text" : "text-gray-500"
+              tab === item.id ? "brand-text font-semibold" : "text-[var(--text-secondary)]"
             }`}
           >
-            <Icon name={item.icon} size={18} />
+            <Icon name={item.icon} size={17} />
             {item.label}
           </button>
         ))}
