@@ -260,7 +260,7 @@ function HomePage({ setTab }: { setTab: (t: Tab) => void }) {
                 <br />
                 <span className="gradient-text">УМНО.</span>
                 <br />
-                <span className="text-white">РАСТИ</span>
+                <span className="text-white">СОЗДАВАЙ</span>
                 <br />
                 <span className="neon-blue-text">БЫСТРО.</span>
               </h1>
