@@ -4,7 +4,102 @@ import Icon from "@/components/ui/icon";
 const HERO_IMG = "https://cdn.poehali.dev/projects/06830a70-7693-446f-a001-00dadc3c5110/files/725dfd88-5e06-42f4-ad6f-5121b83291a9.jpg";
 const DASHBOARD_IMG = "https://cdn.poehali.dev/projects/06830a70-7693-446f-a001-00dadc3c5110/files/510e993c-b094-41b5-880c-718fd9a665ab.jpg";
 
-type Tab = "home" | "projects" | "tasks" | "payments" | "verification";
+type Tab = "home" | "projects" | "tasks" | "reports" | "payments" | "verification";
+
+const REPORTS = [
+  {
+    id: 1,
+    project: "GreenTech Solutions",
+    category: "ЭкоТех",
+    period: "Q1 2026",
+    date: "01.04.2026",
+    type: "Квартальный",
+    revenue: 4200000,
+    expenses: 2800000,
+    profit: 1400000,
+    growth: 18,
+    status: "published",
+    summary: "Выручка выросла на 18% по сравнению с Q4 2025. Запущен новый объект в Краснодарском крае. Привлечено 3 новых корпоративных клиента.",
+    docs: [
+      { name: "Финансовый отчёт Q1 2026.pdf", size: "2.4 МБ" },
+      { name: "Аудиторское заключение.pdf", size: "1.1 МБ" },
+      { name: "Презентация для инвесторов.pdf", size: "5.7 МБ" },
+    ],
+  },
+  {
+    id: 2,
+    project: "MedAI Diagnostics",
+    category: "МедТех",
+    period: "Q1 2026",
+    date: "05.04.2026",
+    type: "Квартальный",
+    revenue: 2100000,
+    expenses: 1900000,
+    profit: 200000,
+    growth: 31,
+    status: "published",
+    summary: "Пользовательская база выросла на 31%. Подписан контракт с сетью клиник «МедПлюс» на 1 200 тест-систем в месяц. FDA-заявка подана.",
+    docs: [
+      { name: "Финансовый отчёт Q1 2026.pdf", size: "1.9 МБ" },
+      { name: "Клинические результаты.pdf", size: "3.2 МБ" },
+    ],
+  },
+  {
+    id: 3,
+    project: "UrbanMobility Hub",
+    category: "Транспорт",
+    period: "Q1 2026",
+    date: "02.04.2026",
+    type: "Квартальный",
+    revenue: 8900000,
+    expenses: 5100000,
+    profit: 3800000,
+    growth: 27,
+    status: "published",
+    summary: "Парк расширен до 4 200 самокатов и 800 автомобилей в 6 городах. NPS достиг 71. Готовимся к выходу в Казань и Нижний Новгород.",
+    docs: [
+      { name: "Финансовый отчёт Q1 2026.pdf", size: "2.8 МБ" },
+      { name: "Операционные метрики.pdf", size: "1.5 МБ" },
+      { name: "Стратегия расширения.pdf", size: "4.1 МБ" },
+    ],
+  },
+  {
+    id: 4,
+    project: "AgriDrone Fleet",
+    category: "АгроТех",
+    period: "Q1 2026",
+    date: "10.04.2026",
+    type: "Квартальный",
+    revenue: 900000,
+    expenses: 1400000,
+    profit: -500000,
+    growth: 8,
+    status: "pending",
+    summary: "Период активных инвестиций в R&D. Завершили разработку дрона 3-го поколения. Пилот с АО «АгроХолдинг» стартует в мае 2026.",
+    docs: [
+      { name: "Финансовый отчёт Q1 2026.pdf", size: "1.3 МБ" },
+    ],
+  },
+  {
+    id: 5,
+    project: "GreenTech Solutions",
+    category: "ЭкоТех",
+    period: "2025 (годовой)",
+    date: "15.02.2026",
+    type: "Годовой",
+    revenue: 14800000,
+    expenses: 9600000,
+    profit: 5200000,
+    growth: 42,
+    status: "published",
+    summary: "Рекордный год: выручка +42%, открыты 5 новых объектов. Независимый аудит подтвердил чистоту финансовой отчётности.",
+    docs: [
+      { name: "Годовой отчёт 2025.pdf", size: "8.2 МБ" },
+      { name: "Аудиторское заключение 2025.pdf", size: "2.1 МБ" },
+      { name: "ESG-отчёт 2025.pdf", size: "3.9 МБ" },
+    ],
+  },
+];
 
 const TASKS = [
   {
@@ -181,6 +276,7 @@ function NavBar({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
     { id: "home", icon: "Home", label: "Главная" },
     { id: "projects", icon: "TrendingUp", label: "Проекты" },
     { id: "tasks", icon: "ListTodo", label: "Задачи" },
+    { id: "reports", icon: "BarChart2", label: "Отчёты" },
     { id: "payments", icon: "CreditCard", label: "Платежи" },
     { id: "verification", icon: "ShieldCheck", label: "Верификация" },
   ];
@@ -1125,6 +1221,171 @@ function TasksPage() {
   );
 }
 
+function ReportsPage() {
+  const [selected, setSelected] = useState<number | null>(null);
+  const [filter, setFilter] = useState("all");
+
+  const types = ["all", "Квартальный", "Годовой"];
+  const filtered = filter === "all" ? REPORTS : REPORTS.filter(r => r.type === filter);
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 pt-24 pb-16 mesh-bg min-h-screen">
+      <div className="mb-8 animate-slide-up">
+        <h2 className="font-['Oswald'] text-4xl font-bold text-white mb-2">ОТЧЁТЫ КОМПАНИЙ</h2>
+        <p className="text-gray-400">Финансовая отчётность и ключевые показатели стартапов</p>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {[
+          { label: "Отчётов опубликовано", val: REPORTS.filter(r => r.status === "published").length.toString(), icon: "FileText", color: "#00ff8c" },
+          { label: "Компаний отчитались", val: "4", icon: "Building2", color: "#00d4ff" },
+          { label: "Суммарная выручка", val: "₽31 млн", icon: "TrendingUp", color: "#a855f7" },
+          { label: "Средний рост", val: "+25.5%", icon: "BarChart3", color: "#f59e0b" },
+        ].map((s, i) => (
+          <div key={s.label} className={`glass-card rounded-2xl p-5 border border-[#1e2a3a] animate-slide-up stagger-${i + 1}`}>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ background: `${s.color}20`, border: `1px solid ${s.color}40` }}>
+                <Icon name={s.icon} size={16} style={{ color: s.color }} />
+              </div>
+              <span className="text-gray-500 text-xs">{s.label}</span>
+            </div>
+            <div className="font-['Oswald'] text-2xl font-bold" style={{ color: s.color }}>{s.val}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {types.map(t => (
+          <button
+            key={t}
+            onClick={() => setFilter(t)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              filter === t ? "btn-primary-neon" : "glass-card border border-[#1e2a3a] text-gray-400 hover:text-white"
+            }`}
+          >
+            {t === "all" ? "Все периоды" : t}
+          </button>
+        ))}
+      </div>
+
+      {/* Report Cards */}
+      <div className="space-y-4">
+        {filtered.map((r, i) => (
+          <div
+            key={r.id}
+            className={`glass-card rounded-2xl border transition-all hover-card-glow cursor-pointer animate-slide-up stagger-${i + 1} ${
+              selected === r.id ? "neon-border" : "border-[#1e2a3a]"
+            }`}
+            onClick={() => setSelected(selected === r.id ? null : r.id)}
+          >
+            <div className="p-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                {/* Left */}
+                <div className="flex items-start gap-4 flex-1">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.25)" }}>
+                    <Icon name="FileBarChart" size={22} className="text-[#00d4ff]" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="font-['Oswald'] text-lg font-bold text-white">{r.project}</span>
+                      <span className="text-xs px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-[#1e2a3a]">{r.category}</span>
+                      <span className="text-xs px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-[#1e2a3a]">{r.type}</span>
+                      <StatusBadge status={r.status} />
+                    </div>
+                    <div className="text-gray-500 text-sm">Период: {r.period} · Опубликован: {r.date}</div>
+                  </div>
+                </div>
+
+                {/* Metrics */}
+                <div className="flex gap-6 md:gap-8 flex-shrink-0">
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">Выручка</div>
+                    <div className="font-['Oswald'] text-lg font-bold text-white">{formatMoney(r.revenue)}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">Прибыль</div>
+                    <div className={`font-['Oswald'] text-lg font-bold ${r.profit >= 0 ? "neon-text" : "text-red-400"}`}>
+                      {r.profit >= 0 ? "+" : ""}{formatMoney(r.profit)}
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">Рост</div>
+                    <div className="font-['Oswald'] text-lg font-bold text-[#00d4ff]">+{r.growth}%</div>
+                  </div>
+                  <div className="flex items-center">
+                    <Icon name={selected === r.id ? "ChevronUp" : "ChevronDown"} size={18} className="text-gray-500" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Expanded */}
+              {selected === r.id && (
+                <div className="mt-6 pt-6 border-t border-[#1e2a3a] grid md:grid-cols-2 gap-6 animate-slide-up">
+                  <div>
+                    <h4 className="font-['Oswald'] text-base font-bold text-white mb-3">Краткое резюме</h4>
+                    <p className="text-gray-400 text-sm leading-relaxed">{r.summary}</p>
+
+                    {/* Mini chart */}
+                    <div className="mt-4">
+                      <div className="text-xs text-gray-500 mb-2">Структура затрат и выручки</div>
+                      <div className="space-y-2">
+                        {[
+                          { label: "Выручка", val: r.revenue, max: r.revenue, color: "#00ff8c" },
+                          { label: "Расходы", val: r.expenses, max: r.revenue, color: "#f59e0b" },
+                          { label: "Прибыль", val: Math.max(r.profit, 0), max: r.revenue, color: "#00d4ff" },
+                        ].map(m => (
+                          <div key={m.label}>
+                            <div className="flex justify-between text-xs mb-1">
+                              <span className="text-gray-500">{m.label}</span>
+                              <span style={{ color: m.color }}>{formatMoney(m.val)}</span>
+                            </div>
+                            <div className="h-1.5 bg-[#1e2a3a] rounded-full overflow-hidden">
+                              <div className="h-full rounded-full transition-all duration-700"
+                                style={{ width: `${Math.round((m.val / m.max) * 100)}%`, background: m.color }} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-['Oswald'] text-base font-bold text-white mb-3">Документы</h4>
+                    <div className="space-y-2">
+                      {r.docs.map((doc, di) => (
+                        <div key={di} className="flex items-center justify-between p-3 rounded-xl glass-card border border-[#1e2a3a] hover:border-[#00d4ff]/40 transition-all">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                              style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.25)" }}>
+                              <Icon name="FileText" size={14} className="text-[#00d4ff]" />
+                            </div>
+                            <div>
+                              <div className="text-white text-xs font-medium">{doc.name}</div>
+                              <div className="text-gray-600 text-xs">{doc.size}</div>
+                            </div>
+                          </div>
+                          <button className="btn-neon px-3 py-1.5 rounded-lg text-xs flex items-center gap-1"
+                            onClick={e => e.stopPropagation()}>
+                            <Icon name="Download" size={12} /> Скачать
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Index() {
   const [tab, setTab] = useState<Tab>("home");
 
@@ -1134,6 +1395,7 @@ export default function Index() {
       {tab === "home" && <HomePage setTab={setTab} />}
       {tab === "projects" && <ProjectsPage />}
       {tab === "tasks" && <TasksPage />}
+      {tab === "reports" && <ReportsPage />}
       {tab === "payments" && <PaymentsPage />}
       {tab === "verification" && <VerificationPage />}
     </div>
