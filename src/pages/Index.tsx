@@ -4,7 +4,88 @@ import Icon from "@/components/ui/icon";
 const HERO_IMG = "https://cdn.poehali.dev/projects/06830a70-7693-446f-a001-00dadc3c5110/files/725dfd88-5e06-42f4-ad6f-5121b83291a9.jpg";
 const DASHBOARD_IMG = "https://cdn.poehali.dev/projects/06830a70-7693-446f-a001-00dadc3c5110/files/510e993c-b094-41b5-880c-718fd9a665ab.jpg";
 
-type Tab = "home" | "projects" | "payments" | "verification";
+type Tab = "home" | "projects" | "tasks" | "payments" | "verification";
+
+const TASKS = [
+  {
+    id: 1,
+    project: "GreenTech Solutions",
+    category: "ЭкоТех",
+    title: "Разработать landing page для кампании по привлечению инвесторов",
+    type: "Дизайн / Разработка",
+    reward: 45000,
+    deadline: "30.04.2026",
+    difficulty: "middle",
+    tags: ["React", "Figma", "UI/UX"],
+    applicants: 12,
+    status: "open",
+  },
+  {
+    id: 2,
+    project: "MedAI Diagnostics",
+    category: "МедТех",
+    title: "Написать экспертный обзор ML-модели для медицинской диагностики",
+    type: "Аналитика",
+    reward: 28000,
+    deadline: "25.04.2026",
+    difficulty: "senior",
+    tags: ["Machine Learning", "Медицина", "Аналитика"],
+    applicants: 5,
+    status: "open",
+  },
+  {
+    id: 3,
+    project: "AgriDrone Fleet",
+    category: "АгроТех",
+    title: "Настроить таргетированную рекламу в VK и Telegram",
+    type: "Маркетинг",
+    reward: 18000,
+    deadline: "22.04.2026",
+    difficulty: "junior",
+    tags: ["SMM", "Таргет", "VK Ads"],
+    applicants: 23,
+    status: "open",
+  },
+  {
+    id: 4,
+    project: "UrbanMobility Hub",
+    category: "Транспорт",
+    title: "Юридическая экспертиза договора с партнёром-перевозчиком",
+    type: "Юриспруденция",
+    reward: 60000,
+    deadline: "28.04.2026",
+    difficulty: "senior",
+    tags: ["Право", "B2B", "Договоры"],
+    applicants: 3,
+    status: "open",
+  },
+  {
+    id: 5,
+    project: "GreenTech Solutions",
+    category: "ЭкоТех",
+    title: "Перевести питч-дек на английский язык для международных инвесторов",
+    type: "Переводы",
+    reward: 12000,
+    deadline: "20.04.2026",
+    difficulty: "junior",
+    tags: ["Английский", "Pitch Deck", "Финансы"],
+    applicants: 8,
+    status: "in_progress",
+  },
+  {
+    id: 6,
+    project: "MedAI Diagnostics",
+    category: "МедТех",
+    title: "Провести 10 глубинных интервью с потенциальными пользователями",
+    type: "Исследования",
+    reward: 35000,
+    deadline: "05.05.2026",
+    difficulty: "middle",
+    tags: ["CustDev", "UX Research", "Медицина"],
+    applicants: 7,
+    status: "open",
+  },
+];
 
 const PROJECTS = [
   {
@@ -99,6 +180,7 @@ function NavBar({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
   const items: { id: Tab; icon: string; label: string }[] = [
     { id: "home", icon: "Home", label: "Главная" },
     { id: "projects", icon: "TrendingUp", label: "Проекты" },
+    { id: "tasks", icon: "ListTodo", label: "Задачи" },
     { id: "payments", icon: "CreditCard", label: "Платежи" },
     { id: "verification", icon: "ShieldCheck", label: "Верификация" },
   ];
@@ -837,6 +919,212 @@ function VerificationPage() {
   );
 }
 
+const DIFFICULTY_MAP: Record<string, { label: string; color: string }> = {
+  junior: { label: "Junior", color: "#00ff8c" },
+  middle: { label: "Middle", color: "#00d4ff" },
+  senior: { label: "Senior", color: "#a855f7" },
+};
+
+function TaskApplyModal({ task, onClose }: { task: typeof TASKS[0]; onClose: () => void }) {
+  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ name: "", about: "", portfolio: "" });
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div className="relative glass-card rounded-2xl border border-[#1e2a3a] w-full max-w-md animate-slide-up" onClick={e => e.stopPropagation()}>
+        {sent ? (
+          <div className="p-10 text-center">
+            <div className="w-20 h-20 rounded-full mx-auto mb-5 flex items-center justify-center"
+              style={{ background: "rgba(0,255,140,0.12)", border: "2px solid rgba(0,255,140,0.4)" }}>
+              <Icon name="CheckCircle" size={40} className="text-[#00ff8c]" />
+            </div>
+            <h3 className="font-['Oswald'] text-2xl font-bold text-white mb-3">ОТКЛИК ОТПРАВЛЕН!</h3>
+            <p className="text-gray-400 text-sm mb-2">Задача: <span className="text-white">{task.title}</span></p>
+            <p className="text-gray-400 text-sm mb-6">Команда <span className="text-[#00ff8c]">{task.project}</span> свяжется с вами в течение 48 часов.</p>
+            <button onClick={onClose} className="btn-primary-neon w-full py-3 rounded-xl font-semibold">Закрыть</button>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between p-6 border-b border-[#1e2a3a]">
+              <div>
+                <h3 className="font-['Oswald'] text-xl font-bold text-white">ОТКЛИКНУТЬСЯ</h3>
+                <p className="text-gray-500 text-xs mt-0.5">{task.project} · {formatMoney(task.reward)}</p>
+              </div>
+              <button onClick={onClose} className="w-8 h-8 rounded-lg glass-card border border-[#1e2a3a] flex items-center justify-center text-gray-400 hover:text-white">
+                <Icon name="X" size={16} />
+              </button>
+            </div>
+            <div className="p-5 border-b border-[#1e2a3a] bg-[#00ff8c]/4">
+              <p className="text-white text-sm font-medium leading-snug">{task.title}</p>
+              <div className="flex flex-wrap gap-1.5 mt-3">
+                {task.tags.map(t => (
+                  <span key={t} className="text-xs px-2 py-1 rounded-full bg-white/5 text-gray-400 border border-[#1e2a3a]">{t}</span>
+                ))}
+              </div>
+            </div>
+            <form className="p-6 space-y-4" onSubmit={e => { e.preventDefault(); setSent(true); }}>
+              {[
+                { key: "name", label: "Имя и фамилия", placeholder: "Иван Петров" },
+                { key: "portfolio", label: "Ссылка на портфолио / GitHub (опционально)", placeholder: "github.com/..." },
+              ].map(f => (
+                <div key={f.key}>
+                  <label className="block text-xs text-gray-400 mb-1.5">{f.label}</label>
+                  <input
+                    type="text"
+                    placeholder={f.placeholder}
+                    value={form[f.key as keyof typeof form]}
+                    onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
+                    required={f.key === "name"}
+                    className="w-full bg-[#0a0e14] border border-[#1e2a3a] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#00ff8c] transition-all"
+                  />
+                </div>
+              ))}
+              <div>
+                <label className="block text-xs text-gray-400 mb-1.5">Почему вы подходите для этой задачи?</label>
+                <textarea
+                  placeholder="Опишите ваш опыт и как вы планируете выполнить задачу..."
+                  rows={4}
+                  required
+                  value={form.about}
+                  onChange={e => setForm(p => ({ ...p, about: e.target.value }))}
+                  className="w-full bg-[#0a0e14] border border-[#1e2a3a] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#00ff8c] transition-all resize-none"
+                />
+              </div>
+              <button type="submit" className="btn-primary-neon w-full py-3 rounded-xl font-semibold text-sm">
+                Отправить отклик
+              </button>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TasksPage() {
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [applyTask, setApplyTask] = useState<typeof TASKS[0] | null>(null);
+
+  const types = ["all", "Дизайн / Разработка", "Маркетинг", "Аналитика", "Юриспруденция", "Исследования", "Переводы"];
+  const filtered = typeFilter === "all" ? TASKS : TASKS.filter(t => t.type === typeFilter);
+
+  const totalReward = TASKS.filter(t => t.status === "open").reduce((s, t) => s + t.reward, 0);
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 pt-24 pb-16 mesh-bg min-h-screen">
+      <div className="mb-8 animate-slide-up">
+        <h2 className="font-['Oswald'] text-4xl font-bold text-white mb-2">ЗАДАЧИ</h2>
+        <p className="text-gray-400">Выполняй задания стартапов и получай вознаграждение</p>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {[
+          { label: "Открытых задач", val: TASKS.filter(t => t.status === "open").length.toString(), icon: "ListTodo", color: "#00ff8c" },
+          { label: "Доступный заработок", val: formatMoney(totalReward), icon: "Wallet", color: "#00d4ff" },
+          { label: "Стартапов-заказчиков", val: "4", icon: "Briefcase", color: "#a855f7" },
+          { label: "Средний чек", val: formatMoney(Math.round(totalReward / TASKS.filter(t => t.status === "open").length)), icon: "TrendingUp", color: "#f59e0b" },
+        ].map((s, i) => (
+          <div key={s.label} className={`glass-card rounded-2xl p-5 border border-[#1e2a3a] animate-slide-up stagger-${i + 1}`}>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ background: `${s.color}20`, border: `1px solid ${s.color}40` }}>
+                <Icon name={s.icon} size={16} style={{ color: s.color }} />
+              </div>
+              <span className="text-gray-500 text-xs">{s.label}</span>
+            </div>
+            <div className="font-['Oswald'] text-2xl font-bold" style={{ color: s.color }}>{s.val}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {types.map(t => (
+          <button
+            key={t}
+            onClick={() => setTypeFilter(t)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              typeFilter === t ? "btn-primary-neon" : "glass-card border border-[#1e2a3a] text-gray-400 hover:text-white"
+            }`}
+          >
+            {t === "all" ? "Все типы" : t}
+          </button>
+        ))}
+      </div>
+
+      {/* Task Cards */}
+      <div className="grid lg:grid-cols-2 gap-5">
+        {filtered.map((task, i) => {
+          const diff = DIFFICULTY_MAP[task.difficulty];
+          return (
+            <div key={task.id} className={`glass-card rounded-2xl border border-[#1e2a3a] hover-card-glow animate-slide-up stagger-${i + 1} transition-all`}>
+              <div className="p-6">
+                {/* Header */}
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 flex-wrap mb-2">
+                      <span className="text-xs px-2 py-1 rounded-full bg-white/5 text-gray-400 border border-[#1e2a3a]">{task.type}</span>
+                      <span className="text-xs px-2 py-1 rounded-full font-semibold"
+                        style={{ background: `${diff.color}15`, border: `1px solid ${diff.color}40`, color: diff.color }}>
+                        {diff.label}
+                      </span>
+                      {task.status === "in_progress" && (
+                        <span className="status-pending text-xs px-2 py-1 rounded-full">В работе</span>
+                      )}
+                    </div>
+                    <h3 className="text-white font-semibold text-sm leading-snug">{task.title}</h3>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="font-['Oswald'] text-xl font-bold neon-text">{formatMoney(task.reward)}</div>
+                    <div className="text-xs text-gray-500">вознаграждение</div>
+                  </div>
+                </div>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {task.tags.map(tag => (
+                    <span key={tag} className="text-xs px-2 py-1 rounded bg-[#1e2a3a] text-gray-400">{tag}</span>
+                  ))}
+                </div>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between pt-4 border-t border-[#1e2a3a]">
+                  <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <span className="flex items-center gap-1">
+                      <Icon name="Building2" size={12} /> {task.project}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Icon name="Clock" size={12} /> до {task.deadline}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Icon name="Users" size={12} /> {task.applicants} откликов
+                    </span>
+                  </div>
+                  <button
+                    disabled={task.status === "in_progress"}
+                    onClick={() => setApplyTask(task)}
+                    className={`px-5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                      task.status === "in_progress"
+                        ? "bg-[#1e2a3a] text-gray-600 cursor-not-allowed"
+                        : "btn-primary-neon"
+                    }`}
+                  >
+                    {task.status === "in_progress" ? "Занята" : "Откликнуться"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {applyTask && <TaskApplyModal task={applyTask} onClose={() => setApplyTask(null)} />}
+    </div>
+  );
+}
+
 export default function Index() {
   const [tab, setTab] = useState<Tab>("home");
 
@@ -845,6 +1133,7 @@ export default function Index() {
       <NavBar tab={tab} setTab={setTab} />
       {tab === "home" && <HomePage setTab={setTab} />}
       {tab === "projects" && <ProjectsPage />}
+      {tab === "tasks" && <TasksPage />}
       {tab === "payments" && <PaymentsPage />}
       {tab === "verification" && <VerificationPage />}
     </div>
