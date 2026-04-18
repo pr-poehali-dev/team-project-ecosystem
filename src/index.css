@@ -4,89 +4,51 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 220 20% 6%;
+    --foreground: 210 40% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 220 18% 9%;
+    --card-foreground: 210 40% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 220 18% 9%;
+    --popover-foreground: 210 40% 96%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 160 100% 50%;
+    --primary-foreground: 220 20% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 210 40% 96%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 15% 12%;
+    --muted-foreground: 215 20% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 195 100% 50%;
+    --accent-foreground: 220 20% 6%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 15% 18%;
+    --input: 220 15% 14%;
+    --ring: 160 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    --neon-green: #00ff8c;
+    --neon-blue: #00d4ff;
+    --neon-purple: #a855f7;
+    --dark-bg: #0a0e14;
+    --card-bg: #0f1520;
+    --card-border: #1e2a3a;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 220 18% 9%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 160 100% 50%;
+    --sidebar-primary-foreground: 220 20% 6%;
+    --sidebar-accent: 220 15% 15%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 160 100% 50%;
   }
 }
 
@@ -97,5 +59,232 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: "Golos Text", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: "Oswald", sans-serif;
+  }
+}
+
+@layer utilities {
+  .neon-text {
+    color: var(--neon-green);
+    text-shadow:
+      0 0 20px rgba(0, 255, 140, 0.5),
+      0 0 40px rgba(0, 255, 140, 0.2);
+  }
+
+  .neon-blue-text {
+    color: var(--neon-blue);
+    text-shadow:
+      0 0 20px rgba(0, 212, 255, 0.5),
+      0 0 40px rgba(0, 212, 255, 0.2);
+  }
+
+  .neon-border {
+    border: 1px solid var(--neon-green);
+    box-shadow:
+      0 0 15px rgba(0, 255, 140, 0.15),
+      inset 0 0 15px rgba(0, 255, 140, 0.05);
+  }
+
+  .neon-border-blue {
+    border: 1px solid var(--neon-blue);
+    box-shadow:
+      0 0 15px rgba(0, 212, 255, 0.15),
+      inset 0 0 15px rgba(0, 212, 255, 0.05);
+  }
+
+  .glass-card {
+    background: rgba(15, 21, 32, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(30, 42, 58, 0.8);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .btn-neon {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 255, 140, 0.15),
+      rgba(0, 212, 255, 0.1)
+    );
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    transition: all 0.3s ease;
+  }
+
+  .btn-neon:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 255, 140, 0.3),
+      rgba(0, 212, 255, 0.2)
+    );
+    box-shadow: 0 0 25px rgba(0, 255, 140, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary-neon {
+    background: linear-gradient(135deg, #00ff8c, #00d4ff);
+    color: #0a0e14;
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary-neon:hover {
+    box-shadow:
+      0 0 30px rgba(0, 255, 140, 0.5),
+      0 0 60px rgba(0, 212, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .mesh-bg {
+    background-image:
+      radial-gradient(
+        ellipse at 20% 20%,
+        rgba(0, 255, 140, 0.08) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse at 80% 80%,
+        rgba(0, 212, 255, 0.08) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse at 50% 50%,
+        rgba(168, 85, 247, 0.05) 0%,
+        transparent 70%
+      );
+  }
+
+  .grid-lines {
+    background-image:
+      linear-gradient(rgba(30, 42, 58, 0.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 42, 58, 0.4) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .verified-badge {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 255, 140, 0.2),
+      rgba(0, 212, 255, 0.1)
+    );
+    border: 1px solid rgba(0, 255, 140, 0.4);
+    color: var(--neon-green);
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .progress-neon {
+    background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+    box-shadow: 0 0 10px rgba(0, 255, 140, 0.4);
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .stagger-1 {
+    animation-delay: 0.1s;
+  }
+  .stagger-2 {
+    animation-delay: 0.2s;
+  }
+  .stagger-3 {
+    animation-delay: 0.3s;
+  }
+  .stagger-4 {
+    animation-delay: 0.4s;
+  }
+  .stagger-5 {
+    animation-delay: 0.5s;
+  }
+
+  .tab-active {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 255, 140, 0.15),
+      rgba(0, 212, 255, 0.08)
+    );
+    border-bottom: 2px solid var(--neon-green);
+    color: var(--neon-green);
+  }
+
+  .hover-card-glow:hover {
+    box-shadow:
+      0 0 30px rgba(0, 255, 140, 0.1),
+      0 20px 40px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+    border-color: rgba(0, 255, 140, 0.3) !important;
+  }
+
+  .status-pending {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  .status-verified {
+    color: var(--neon-green);
+    background: rgba(0, 255, 140, 0.1);
+    border: 1px solid rgba(0, 255, 140, 0.3);
+  }
+
+  .status-rejected {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
   }
 }
