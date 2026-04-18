@@ -287,7 +287,7 @@ function NavBar({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
           <div className="w-8 h-8 rounded-lg btn-primary-neon flex items-center justify-center">
             <Icon name="Zap" size={16} />
           </div>
-          <span className="font-['Oswald'] text-xl font-semibold gradient-text tracking-wider">STARTUPBOOST</span>
+          <span className="font-['Oswald'] text-xl font-semibold gradient-text tracking-wider">FLUENCE</span>
         </div>
         <div className="hidden md:flex items-center gap-1">
           {items.map((item) => (
@@ -361,7 +361,7 @@ function HomePage({ setTab }: { setTab: (t: Tab) => void }) {
                 <span className="neon-blue-text">БЫСТРО.</span>
               </h1>
               <p className="text-gray-400 text-lg leading-relaxed mb-8 max-w-md">
-                StartupBoost — поддерживай реальные проекты выполнением задач и инвестициями, и зарабатывай деньги.
+                Fluence — поддерживай реальные проекты выполнением задач и инвестициями, и зарабатывай деньги.
               </p>
               <div className="flex flex-wrap gap-4">
                 <button onClick={() => setTab("projects")} className="btn-primary-neon px-8 py-3 rounded-xl font-semibold text-base">
